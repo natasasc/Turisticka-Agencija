@@ -1,0 +1,4 @@
+Aranzman1;PunPansion;Individualan;Rovinj;24/07/2021;31/07/2021;10:15;30;opis 1;program 1;rovinj.jpeg;False;pera
+NoviAranzman;AllInclusive;Avion;Skiathos;17/07/2021;27/07/2021;15:30;20;Opis;Program;skiathos.jpg;False;pera
+Aranzman2;Polupansion;Avion;Skiathos;03/08/2019;13/08/2019;17:30;40;opis 2;program 2;skiathos.jpg;False;pera
+Aranzman3;NocenjeSaDoruckom;Individualan;Znojmo;22/06/2021;26/06/2021;09:00;3;OpisAranzmana3;ProgramPutovanja3;znojmo.jpg;False;misa

@@ -1,0 +1,100 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div>
+        <h2>Profil</h2>
+        <br />
+        @{ Korisnik k = (Korisnik)Session["user"];}
+        <table>
+            <tr>
+                <td>Korisnicko Ime: </td>
+                <td>@k.KorisnickoIme</td>
+            </tr>
+            <tr>
+                <td>Ime: </td>
+                <td>@k.Ime</td>
+            </tr>
+            <tr>
+                <td>Prezime: </td>
+                <td>@k.Prezime</td>
+            </tr>
+            <tr>
+                <td>Pol: </td>
+                <td>@k.Pol.ToString()</td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td>@k.Email</td>
+            </tr>
+            <tr>
+                <td>Datum Rodjenja: </td>
+                <td>@k.DatumRodjenja.ToString("dd/MM/yyyy")</td>
+            </tr>
+        </table>
+        <!--Aranzmani-->
+    </div>
+    <br />
+    <h3>Izmena</h3>
+    <br />
+    <form action="~/Home/IzmeniProfil" method="post">
+        <table>
+            <tr>
+                <td>Lozinka:</td>
+                <td>
+                    <input type="password" name="Lozinka" />
+                    <input type="hidden" name="KorisnickoIme" value=@k.KorisnickoIme />
+                </td>
+            </tr>
+            <tr>
+                <td>Ponovite novu lozinku:</td>
+                <td><input type="password" name="Lozinka2" /></td>
+            </tr>
+            <tr>
+                <td>Ime:</td>
+                <td><input type="text" name="Ime" value=@k.Ime /></td>
+            </tr>
+            <tr>
+                <td>Prezime:</td>
+                <td><input type="text" name="Prezime" value=@k.Prezime /></td>
+            </tr>
+            <tr>
+                <td>Pol:</td>
+                <td>
+                    <input list="polovi" name="Pol" value=@k.Pol.ToString() />
+                    <datalist id="polovi">
+                        <option value="Muski"></option>
+                        <option value="Zenski"></option>
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="email" name="Email" value=@k.Email /></td>
+            </tr>
+            <tr>
+                <td>Datum rodjenja:</td>
+                <td><input type="date" name="DatumRodjenja" value=@k.DatumRodjenja /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Izmeni" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br />
+    @ViewBag.Message
+    <br />
+    <div>
+        <a href="~/Home/Index">Index</a>
+    </div>
+</body>
+</html>

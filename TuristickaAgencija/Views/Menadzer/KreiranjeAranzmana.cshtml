@@ -1,0 +1,157 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+    <script>
+        let map;
+        let marker;
+        let address;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 45.244222, lng: 19.847679 },
+                zoom: 15,
+            });
+
+            marker = new google.maps.Marker({
+                position: { lat: 45.244222, lng: 19.847679 },
+                map: map
+            })
+
+            map.AddListener("click", (mapsMouseEvent) => {
+                marker.setMap(null)
+                marker = new google.maps.Marker({
+                    position: mapsMouseEvent.latLng,
+                    map: map
+                });
+
+                $('#lat').val(marker.position.lat);
+                $('#long').val(marker.position.lng);
+
+                let lat = JSON.stringify(mapsMouseEvent.latLng.toJSON().lat)
+                let lng = JSON.stringify(mapsMouseEvent.latLng.toJSON().lng)
+                let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDjFxw5yrJpxMheRT4bsC6Qa22Hl9I00Sc`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        let array = data.results[0].formatted_address.split(',')
+                        $('#address').val(array[0] + array[1])
+                    })
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Kreiranje Aranzmana</h2>
+    <div>
+        <form action="~/Menadzer/KreirajAranzman" method="post">
+            <table>
+                <tr>
+                    <td>Naziv Aranzmana:</td>
+                    <td>
+                        <input type="text" name="Naziv" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tip Aranzmana:</td>
+                    <td>
+                        <input list="tipovi" name="Tip" />
+                        <datalist id="tipovi">
+                            <option value="NocenjeSaDoruckom"></option>
+                            <option value="Polupansion"></option>
+                            <option value="PunPansion"></option>
+                            <option value="AllInclusive"></option>
+                            <option value="NajamApartmana"></option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tip Prevoza:</td>
+                    <td>
+                        <input list="tipoviPrevoza" name="Prevoz" />
+                        <datalist id="tipoviPrevoza">
+                            <option value="Autobus"></option>
+                            <option value="Avion"></option>
+                            <option value="AutobusIAvion"></option>
+                            <option value="Individualan"></option>
+                            <option value="Ostalo"></option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lokacija:</td>
+                    <td><input type="text" name="Lokacija" /></td>
+                </tr>
+                <tr>
+                    <td>Datum Pocetka Putovanja:</td>
+                    <td><input type="date" name="DatumPocetkaPutovanja" /></td>
+                </tr>
+                <tr>
+                    <td>Datum Zavrsetka Putovanja:</td>
+                    <td><input type="date" name="DatumZavrsetkaPutovanja" /></td>
+                </tr>
+                <tr>
+                    <td>Maksimalni Broj Putnika:</td>
+                    <td><input type="text" name="MaxBrojPutnika" /></td>
+                </tr>
+                <tr>
+                    <td>Opis Aranzmana:</td>
+                    <td><input type="text" name="OpisAranzmana" /></td>
+                </tr>
+                <tr>
+                    <td>Program Putovanja:</td>
+                    <td><input type="text" name="ProgramPutovanja" /></td>
+                </tr>
+                <tr>
+                    <td>Poster Aranzmana:</td>
+                    <td>
+                        <select name="PosterAranzmana">
+                            <option value="rovinj.jpeg"">Rovinj</option>
+                            <option value="skiathos.jpg"">Skiathos</option>
+                            <option value="miami.jpg">Miami</option>
+                            <option value="znojmo.jpg">Znojmo</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vreme Nalazenja (HH:mm):</td>
+                    <td><input type="text" name="VremeNalazenja" /></td>
+                </tr>
+
+                <tr>
+                    <td>Adresa:</td>
+                    <td>
+                        <input type="text" name="Adresa" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Geografska Duzina:</td>
+                    <td><input type="text" name="GeografskaDuzina" /></td>
+                </tr>
+                <tr>
+                    <td>Geografska Sirina:</td>
+                    <td><input type="text" name="GeografskaSirina" /></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Kreiraj" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div>
+        <br />
+        @ViewBag.Message
+    </div>
+    <div>
+        <br />
+        <a href="~/Menadzer/Index">Index</a>
+    </div>
+</body>
+</html>

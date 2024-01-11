@@ -1,0 +1,154 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div>
+        <h3>Sortiranje Aranzmana Po:</h3>
+        <form action="~/Home/Sortiranje" method="post">
+            <input list="sortvrsta" name="sortvrsta" />
+            <datalist id="sortvrsta">
+                <option value="nazivu"></option>
+                <option value="polasku"></option>
+                <option value="povratku"></option>
+            </datalist>
+            <input list="sortnacin" name="sortnacin" />
+            <datalist id="sortnacin">
+                <option value="opadajuce"></option>
+                <option value="rastuce"></option>
+            </datalist>
+            <input type="submit" value="Sortiraj" />
+        </form>
+    </div>
+    <br />
+    <h4>Svi Aranzmani:</h4>
+    <table border="1">
+        <tr>
+            <th>Naziv</th>
+            <th>Tip</th>
+            <th>Prevoz</th>
+            <th>Lokacija</th>
+            <th>Polazak</th>
+            <th>Povratak</th>
+            <th></th>
+        </tr>
+        @{
+            List<Aranzman> lista = Aranzmani.ListaAranzmana;
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                if (lista[i].Obrisan)
+                {
+                    continue;
+                }
+                <tr>
+                    <td>@lista[i].Naziv</td>
+                    <td>@lista[i].Tip.ToString()</td>
+                    <td>@lista[i].Prevoz.ToString()</td>
+                    <td>@lista[i].Lokacija</td>
+                    <td>@lista[i].DatumPocetkaPutovanja.ToString("dd/MM/yyyy")</td>
+                    <td>@lista[i].DatumZavrsetkaPutovanja.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <form method="post" action="~/Home/OdredjeniAranzman">
+                            <input type="hidden" name="naziv" value=@lista[i].Naziv />
+                            <input type="submit" value="Pogledaj">
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <br /><br />
+    <h3>Pretraga Aranzmana:</h3>
+    <form action="~/Home/Pretraga" method="post">
+        Donja granica datuma za pocetak putovanja:
+        <input type="date" name="donjiDatumPocetak" />
+        <br />
+        Gornja granica datuma za pocetak putovanja:
+        <input type="date" name="gornjiDatumPocetak" />
+        <br />
+        Donja granica datuma za zavrsetak putovanja:
+        <input type="date" name="donjiDatumZavrsetak" />
+        <br />
+        Gornja granica datuma za zavrsetak putovanja:
+        <input type="date" name="gornjiDatumZavrsetak" />
+        <br />
+        Tip prevoza:
+        <input list="prevoz" name="prevoz" />
+        <datalist id="prevoz">
+            <option value="Autobus"></option>
+            <option value="Avion"></option>
+            <option value="AutobusIAvion"></option>
+            <option value="Individualan"></option>
+            <option value="Ostalo"></option>
+        </datalist>
+        <br />
+        Tip aranzmana:
+        <input list="aranzman" name="aranzman" />
+        <datalist id="aranzman">
+            <option value="NocenjeSaDoruckom"></option>
+            <option value="Polupansion"></option>
+            <option value="PunPansion"></option>
+            <option value="AllInclusive"></option>
+            <option value="NajamApartmana"></option>
+        </datalist>
+        <br />
+        Naziv:
+        <input type="text" name="naziv" />
+        <br />
+        <input type="submit" value="Pretrazi" />
+        <br />
+    </form>
+
+    @if (ViewBag.TrazeniAranzman == null)
+    {
+        <div>
+            <br />
+            @ViewBag.Message
+        </div>
+    }
+    else
+    {
+        <br />
+        <h3>Rezultati pretrage:</h3>
+        <table border="1">
+            <tr>
+                <th>Naziv</th>
+                <th>Tip</th>
+                <th>Prevoz</th>
+                <th>Lokacija</th>
+                <th>Polazak</th>
+                <th>Povratak</th>
+                <th></th>
+            </tr>
+            @foreach (var a in ViewBag.TrazeniAranzman)
+            {
+                <tr>
+                    <td>@a.Naziv</td>
+                    <td>@a.Tip.ToString()</td>
+                    <td>@a.Prevoz.ToString()</td>
+                    <td>@a.Lokacija</td>
+                    <td>@a.DatumPocetkaPutovanja.ToString("dd/MM/yyyy")</td>
+                    <td>@a.DatumZavrsetkaPutovanja.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <form method="post" action="~/Home/OdredjeniAranzman">
+                            <input type="hidden" name="naziv" value=@a.Naziv />
+                            <input type="submit" value="Pogledaj">
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <br />
+    <div>
+        <a href="~/Home/Index">Index</a>
+    </div>
+</body>
+</html>

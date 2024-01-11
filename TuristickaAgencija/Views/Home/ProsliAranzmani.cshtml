@@ -1,0 +1,60 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div>
+        <table border="1">
+            <tr>
+                <th>Polazak</th>
+                <th>Povratak</th>
+                <th>Broj Dana</th>
+                <th>Slika</th>
+                <th>Lokacija</th>
+                <th>Cena</th>
+                <th></th>
+            </tr>
+            @{
+                List<Aranzman> lista = Aranzmani.ListaAranzmana.OrderByDescending(o => o.DatumZavrsetkaPutovanja).ToList();
+
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    if (lista[i].DatumPocetkaPutovanja <= DateTime.Now)
+                    {
+                        <tr>
+                            <td>@lista[i].DatumPocetkaPutovanja.ToString("dd/MM/yyyy")</td>
+                            <td>@lista[i].DatumZavrsetkaPutovanja.ToString("dd/MM/yyyy")</td>
+                            @{
+                                int dana = lista[i].DatumZavrsetkaPutovanja.Day - lista[i].DatumPocetkaPutovanja.Day;
+                                <td>@dana.ToString()</td>
+                            }
+                            @{
+                                string putanja = "~/Content/" + lista[i].PosterAranzmana;
+                                <td><img src="@Url.Content(putanja)" height="50" width="50" /></td>
+                            }
+                            <td>@lista[i].Lokacija</td>
+                            <td>Od: @Data.NajmanjaCena(lista[i]).ToString() EUR</td>
+                            <td>
+                                <form method="post" action="~/Home/OdredjeniAranzman">
+                                    <input type="hidden" name="naziv" value=@lista[i].Naziv />
+                                    <input type="submit" value="Pogledaj">
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </table>
+    </div>
+    <br />
+    <div>
+        <a href="~/Home/Index">Index</a>
+    </div>
+</body>
+</html>

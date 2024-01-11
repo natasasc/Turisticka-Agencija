@@ -1,0 +1,56 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Moje Rezervacije</h2>
+    <br />
+    <div>
+        @{
+            Korisnik k = (Korisnik)Session["user"];
+            <table border="1">
+                <tr>
+                    <th>Turista</th>
+                    <th>Status</th>
+                    <th>Aranzman</th>
+                    <th>SmestajnaJedinica</th>
+                    <th></th>   <!--Pogledaj-->
+                </tr>
+
+                @foreach (Rezervacija r in Rezervacije.ListaRezervacija)
+                {
+                    if (Aranzmani.FindByNaziv(r.Aranzman).Kreirao == k.KorisnickoIme)
+                    {
+                        <tr>
+                            <td>@r.Turista</td>
+                            <td>@r.Status.ToString()</td>
+                            <td>@r.Aranzman</td>
+                            <td>@r.SmestajnaJedinica.ToString()</td>
+                            <td>
+                                <form method="post" action="~/Menadzer/OdredjenaRezervacija">
+                                    <input type="hidden" name="Identifikator"
+                                           value=@r.Identifikator />
+                                    <input type="submit" value="Pogledaj">
+                                </form>
+                            </td>
+                        </tr>
+
+                    }
+                }
+
+            </table>
+            
+        }
+    </div>
+    <br />
+    <div>
+        <a href="~/Menadzer/Index">Index</a>
+    </div>
+</body>
+</html>

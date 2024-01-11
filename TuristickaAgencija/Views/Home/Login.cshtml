@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="~/Home/Login" method="post">
+        <table>
+            <tr>
+                <td>Korisnicko ime:</td>
+                <td><input type="text" name="KorisnickoIme" /></td>
+            </tr>
+            <tr>
+                <td>Lozinka:</td>
+                <td><input type="password" name="Lozinka" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Login" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br />
+    <div>
+        @ViewBag.Message
+    </div>
+    <div>
+        <br />
+        <a href="~/Home/Registracija">Registracija</a>
+    </div>
+</body>
+</html>

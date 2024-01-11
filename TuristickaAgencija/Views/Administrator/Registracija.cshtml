@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div>
+        <form action="~/Administrator/Registracija" method="post">
+            <table>
+                <tr>
+                    <td>Korisnicko ime:</td>
+                    <td><input type="text" name="KorisnickoIme" /></td>
+                </tr>
+                <tr>
+                    <td>Lozinka:</td>
+                    <td><input type="password" name="Lozinka" /></td>
+                </tr>
+                <tr>
+                    <td>Ime:</td>
+                    <td><input type="text" name="Ime" /></td>
+                </tr>
+                <tr>
+                    <td>Prezime:</td>
+                    <td><input type="text" name="Prezime" /></td>
+                </tr>
+                <tr>
+                    <td>Pol:</td>
+                    <td>
+                        <input list="polovi" name="Pol" />
+                        <datalist id="polovi">
+                            <option value="Muski"></option>
+                            <option value="Zenski"></option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" name="Email" /></td>
+                </tr>
+                <tr>
+                    <td>Datum rodjenja:</td>
+                    <td><input type="date" name="DatumRodjenja" /></td>
+                </tr>
+                <!--Korisnik moze biti samo menadzer-->
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Registruj Menadzera" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br />
+        <div>
+            @ViewBag.Message
+        </div>
+        <br />
+        <a href="~/Administrator/Index">Index</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+﻿h1, h2, h3, h4 {
+    color: rebeccapurple
+}
+
+input[type="text"] {
+    background-color: powderblue;
+}
+
+input[list] {
+    background-color: powderblue;
+}
+
+input[type="password"] {
+    background-color: powderblue;
+}
+
+input[type="email"] {
+    background-color: powderblue;
+}
+
+body {
+    padding-top: 30px;
+    padding-left: 15px;
+    font-family: Arial;
+}
+
+td {
+    align-content: center;
+}
+
+table[border="1"] tr:hover {
+    background-color: #ffff99;
+    cursor: pointer;
+}
+
+tr.selected {
+    background-color: #aaaaaa;
+}

@@ -1,0 +1,3 @@
+nata;Aranzman2;problemi s klimom;4;True;False
+nata;Aranzman2;tekst komentara;3;False;False
+nata;Aranzman2;drugiKomentar;3;False;False

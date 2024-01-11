@@ -1,0 +1,5 @@
+123456789123456;nata;Aktivna;Aranzman1;1
+987654321987654;nata;Aktivna;Aranzman2;3
+XD7GAPNTKCDLBC1;nata;Otkazana;Aranzman1;2
+NSQ2H6HCQRG4T4Z;noviKorisnik;Otkazana;Aranzman1;2
+JUCPIUDYJ6R851F;aleksa;Otkazana;Aranzman1;2

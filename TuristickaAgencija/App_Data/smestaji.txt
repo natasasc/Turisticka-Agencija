@@ -1,0 +1,4 @@
+Hotel;Eden;4;True;True;True;True;Aranzman1;False
+Hotel;Palace;4;True;False;False;True;Aranzman2;False
+Vila;NoviSmestaj;0;True;False;True;True;NoviAranzman;False
+Hotel;Mariel;3;False;False;False;True;Aranzman3;False

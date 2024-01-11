@@ -1,0 +1,166 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div>
+        <div>
+            <h3>Sortiranje Korisnika Po:</h3>
+            <form action="~/Administrator/SortiranjeKorisnika" method="post">
+                <input list="sortvrsta" name="sortvrsta" />
+                <datalist id="sortvrsta">
+                    <option value="imenu"></option>
+                    <option value="prezimenu"></option>
+                    <option value="ulozi"></option>
+                </datalist>
+                <input list="sortnacin" name="sortnacin" />
+                <datalist id="sortnacin">
+                    <option value="opadajuce"></option>
+                    <option value="rastuce"></option>
+                </datalist>
+                <input type="submit" value="Sortiraj" />
+            </form>
+        </div>
+        <br />
+        <h4>Svi Korisnici:</h4>
+        <table border="1">
+            <tr>
+                <th>Korisnicko Ime</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Pol</th>
+                <th>Email</th>
+                <th>Datum Rodjenja</th>
+                <th>Uloga</th>
+                <th>Aranzmani</th>
+                <th>Otkazao</th>
+                <th>Blokiran</th>
+            </tr>
+            @{
+                List<Korisnik> lista = Korisnici.ListaKorisnika;
+
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    <tr>
+                        <td>@lista[i].KorisnickoIme</td>
+                        <td>@lista[i].Ime</td>
+                        <td>@lista[i].Prezime</td>
+                        <td>@lista[i].Pol.ToString()</td>
+                        <td>@lista[i].Email</td>
+                        <td>@lista[i].DatumRodjenja.ToString("dd/MM/yyyy")</td>
+                        <td>@lista[i].Uloga.ToString()</td>
+                        <td>
+                            <table>
+                                @foreach (Aranzman a in lista[i].Aranzmani)
+                                {
+                                    <tr>
+                                        <td>@a.Naziv</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                        <td>@lista[i].Otkazao.ToString()</td>
+                        @if (lista[i].Blokiran)
+                        {
+                            <td>Da</td>
+                        }
+                        else
+                        {
+                            <td>Ne</td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+        <br />
+
+        <h3>Pretraga Korisnika:</h3>
+        <form action="~/Administrator/PretragaKorisnika" method="post">
+            Ime:
+            <input type="text" name="Ime" />
+            <br />
+            Prezime:
+            <input type="text" name="Prezime" />
+            <br />
+            Uloga:
+            <input list="uloga" name="Uloga" />
+            <datalist id="uloga">
+                <option value="Turista"></option>
+                <option value="Menadzer"></option>
+                <option value="Administrator"></option>
+            </datalist>
+            <br />
+            <input type="submit" value="Pretrazi" />
+            <br />
+        </form>
+
+        @if (ViewBag.TrazeniKorisnik == null)
+        {
+            <div>
+                <br />
+                @ViewBag.Message
+            </div>
+        }
+        else
+        {
+            <br />
+            <h3>Rezultati pretrage:</h3>
+            <table border="1">
+                <tr>
+                    <th>Korisnicko Ime</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Pol</th>
+                    <th>Email</th>
+                    <th>Datum Rodjenja</th>
+                    <th>Uloga</th>
+                    <th>Aranzmani</th>
+                    <th>Otkazao</th>
+                    <th>Blokiran</th>
+                </tr>
+                @foreach (Korisnik k in ViewBag.TrazeniKorisnik)
+                {
+                <tr>
+                    <td>@k.KorisnickoIme</td>
+                    <td>@k.Ime</td>
+                    <td>@k.Prezime</td>
+                    <td>@k.Pol.ToString()</td>
+                    <td>@k.Email</td>
+                    <td>@k.DatumRodjenja.ToString("dd/MM/yyyy")</td>
+                    <td>@k.Uloga.ToString()</td>
+                    <td>
+                        <table>
+                            @foreach (Aranzman a in k.Aranzmani)
+                            {
+                                <tr>
+                                    <td>@a.Naziv</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                    <td>@k.Otkazao.ToString()</td>
+                    @if (k.Blokiran)
+                    {
+                        <td>Da</td>
+                    }
+                    else
+                    {
+                        <td>Ne</td>
+                    }
+                </tr>
+                }
+            </table>
+        }
+    </div>
+    <br />
+    <div>
+        <a href="~/Administrator/Index">Index</a>
+    </div>
+</body>
+</html>

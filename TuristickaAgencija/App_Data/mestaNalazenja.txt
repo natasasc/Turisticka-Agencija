@@ -1,0 +1,4 @@
+Bulevar Jase Tomica 4, Novi Sad, 21000;45,2889;19,7245;Aranzman1;False
+Bulevar Jase Tomica 4, Novi Sad, 21000;45,2889;19,7245;Aranzman2;False
+Nova;51,578;53,236;NoviAranzman;False
+Bulevar Oslobodjenja 83, Novi Sad, 21000;41,238;43,587;Aranzman3;False

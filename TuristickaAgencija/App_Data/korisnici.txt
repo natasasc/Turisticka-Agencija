@@ -1,0 +1,7 @@
+mila;mila;Mila;Milic;Zenski;milam@gmail.com;18/07/1994;Administrator;0;False
+pera;pera;Pera;Peric;Muski;perap@gmail.com;10/10/1985;Menadzer;0;False
+misa;misa;Misa;Misic;Muski;misam@gmail.com;25/02/1991;Menadzer;0;False
+nata;nata;Natasa;Scekic;Zenski;scekicnnatasa@gmail.com;06/07/1999;Turista;0;False
+noviMenadzer;lozinka;Novi;Menadzer;Muski;novim@hotmail.com;13/06/1995;Menadzer;0;False
+noviKorisnik;novi;Novi;Korisnik;Muski;novik@hotmail.com;13/10/1998;Turista;2;True
+aleksa;aleksa;Aleksa;Popovic;Muski;aleksap@gmail.com;28/09/2000;Turista;1;False

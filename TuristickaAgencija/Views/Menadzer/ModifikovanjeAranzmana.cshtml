@@ -1,0 +1,112 @@
+﻿@using TuristickaAgencija.Models
+@model Aranzman
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Modifikovanje Aranzmana</h2>
+    <br />
+    <form action="~/Menadzer/Modifikuj" method="post">
+        <table>
+            <tr>
+                <td>Tip Aranzmana:</td>
+                <td>
+                    <input type="hidden" name="Naziv" value=@Model.Naziv />
+                    <input type="hidden" name="Kreirao" value=@Model.Kreirao />
+                    <input type="hidden" name="Obrisan" value=@Model.Obrisan />
+                    <input list="tipovi" name="Tip" value=@Model.Tip />
+                    <datalist id="tipovi">
+                        <option value="NocenjeSaDoruckom"></option>
+                        <option value="Polupansion"></option>
+                        <option value="PunPansion"></option>
+                        <option value="AllInclusive"></option>
+                        <option value="NajamApartmana"></option>
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Tip Prevoza:</td>
+                <td>
+                    <input list="tipoviPrevoza" name="Prevoz" value=@Model.Prevoz.ToString() />
+                    <datalist id="tipoviPrevoza">
+                        <option value="Autobus"></option>
+                        <option value="Avion"></option>
+                        <option value="AutobusIAvion"></option>
+                        <option value="Individualan"></option>
+                        <option value="Ostalo"></option>
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Lokacija:</td>
+                <td><input type="text" name="Lokacija" value=@Model.Lokacija /></td>
+            </tr>
+            <tr>
+                <td>Datum Pocetka Putovanja:</td>
+                <td><input type="date" name="DatumPocetkaPutovanja" /></td>
+            </tr>
+            <tr>
+                <td>Datum Zavrsetka Putovanja:</td>
+                <td><input type="date" name="DatumZavrsetkaPutovanja" /></td>
+            </tr>
+            <tr>
+                <td>Maksimalni Broj Putnika:</td>
+                <td><input type="text" name="MaxBrojPutnika" value=@Model.MaxBrojPutnika.ToString() /></td>
+            </tr>
+            <tr>
+                <td>Opis Aranzmana:</td>
+                <td><input type="text" name="OpisAranzmana" value=@Model.OpisAranzmana /></td>
+            </tr>
+            <tr>
+                <td>Program Putovanja:</td>
+                <td><input type="text" name="ProgramPutovanja" value=@Model.ProgramPutovanja /></td>
+            </tr>
+            <tr>
+                <td>Poster Aranzmana:</td>
+                <td>
+                    <input list="posteri" name="PosterAranzmana" value=@Model.Prevoz.ToString() />
+                    <datalist id="posteri">
+                        <option value="rovinj.jpeg" style="background-image:url(rovinj.jpeg);"></option>
+                        <option value="skiathos.jpg" style="background-image:url(skiathos.jpg);"></option>
+                    </datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>Vreme Nalazenja (HH:mm):</td>
+                <td><input type="text" name="VremeNalazenja" value=@Model.VremeNalazenja /></td>
+            </tr>
+
+            <tr>
+                <td>Adresa:</td>
+                <td><input type="text" name="Adresa" value=@Model.MestoNalazenja.Adresa /></td>
+            </tr>
+            <tr>
+                <td>Geografska Duzina:</td>
+                <td><input type="text" name="GeografskaDuzina" value=@Model.MestoNalazenja.GeografskaDuzina.ToString() /></td>
+            </tr>
+            <tr>
+                <td>Geografska Sirina:</td>
+                <td><input type="text" name="GeografskaSirina" value=@Model.MestoNalazenja.GeografskaSirina.ToString() /></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Modifikuj" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br />
+    @ViewBag.Message
+    <br />
+    <div>
+        <a href="~/Menadzer/Index">Index</a>
+    </div>
+</body>
+</html>

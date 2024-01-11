@@ -1,0 +1,227 @@
+﻿@using TuristickaAgencija.Models
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Odredjena Rezervacija</h2>
+    <br />
+    <div>Rezervacija</div>
+    <table border="1">
+        <tr>
+            <th>Turista</th>
+            <th>Status</th>
+            <th>Aranzman</th>
+            <th>SmestajnaJedinica</th>
+        </tr>
+        @{ Rezervacija r = ViewBag.OdredjenaRezervacija; }
+
+                <tr>
+                    <td>@r.Turista</td>
+                    <td>@r.Status.ToString()</td>
+                    <td>@r.Aranzman</td>
+                    <td>@r.SmestajnaJedinica.ToString()</td>
+
+                    @*<td>@Aranzmani.FindByNaziv(r.Aranzman).Smestaj.Naziv</td>
+                        @{
+                            SmestajnaJedinica sj = SmestajneJedinice.FindByID(r.SmestajnaJedinica.ToString());
+                        }
+                        <td>@sj.DozvoljenBrojGostiju.ToString()</td>
+                        @if (sj.Ljubimci)
+                        {
+                            <td>Da</td>
+                        }
+                        else
+                        {
+                            <td>Ne</td>
+                        }
+                        <td>@sj.Cena.ToString()</td>*@
+                </tr>
+
+    </table>
+    <br />
+    <div>
+        <h3>Aranzman</h3>
+        <table>
+            @{ Aranzman a = Aranzmani.FindByNaziv(r.Aranzman); }
+            <tr>
+                <td>Naziv:</td>
+                <td>@a.Naziv</td>
+            </tr>
+            <tr>
+                <td>Tip Aranzmana:</td>
+                <td>@a.Tip.ToString()</td>
+            </tr>
+            <tr>
+                <td>Tip Prevoza:</td>
+                <td>@a.Prevoz.ToString()</td>
+            </tr>
+            <tr>
+                <td>Polazak:</td>
+                <td>@a.DatumPocetkaPutovanja.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td>Povratak:</td>
+                <td>@a.DatumZavrsetkaPutovanja.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td>Maksimalan Broj Putnika:</td>
+                <td>@a.MaxBrojPutnika.ToString()</td>
+            </tr>
+            <tr>
+                <td>Opis Aranzmana:</td>
+                <td>@a.OpisAranzmana</td>
+            </tr>
+            <tr>
+                <td>Program Putovanja:</td>
+                <td>@a.ProgramPutovanja</td>
+            </tr>
+        </table>
+        <br />
+        <h3>Nalazenje</h3>
+        <table>
+            <tr>
+                <td>Adresa:</td>
+                <td>@a.MestoNalazenja.Adresa</td>
+            </tr>
+            <tr>
+                <td>Geografska Duzina:</td>
+                <td>@a.MestoNalazenja.GeografskaDuzina.ToString() N</td>
+            </tr>
+            <tr>
+                <td>Geografska Sirina:</td>
+                <td>@a.MestoNalazenja.GeografskaSirina.ToString() E</td>
+            </tr>
+            <tr>
+                <td>Vreme:</td>
+                <td>@a.VremeNalazenja</td>
+            </tr>
+        </table>
+        <br />
+        @if (a.Smestaj != null)
+        {
+            <h3>Smestaj</h3>
+            <table>
+                <tr>
+                    <td>Tip Smestaja:</td>
+                    <td>@a.Smestaj.Tip.ToString()</td>
+                </tr>
+                <tr>
+                    <td>Naziv Smestaja:</td>
+                    <td>@a.Smestaj.Naziv</td>
+                </tr>
+                @if (a.Smestaj.Tip == TipSmestaja.Hotel)
+                {
+                    <tr>
+                        <td>Broj Zvezdica:</td>
+                        <td>@a.Smestaj.BrojZvezdica.ToString()</td>
+                    </tr>
+                }
+                <tr>
+                    <td>Bazen:</td>
+                    <td>
+                        @if (a.Smestaj.Bazen)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Spa Centar:</td>
+                    <td>
+                        @if (a.Smestaj.SpaCentar)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Prilagodjeno Za Invalide:</td>
+                    <td>
+                        @if (a.Smestaj.PrilagodjenoZaInvalide)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Wifi:</td>
+                    <td>
+                        @if (a.Smestaj.Wifi)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+            <br />
+
+            if (a.Smestaj.Jedinice != null)
+            {
+                if (a.Smestaj.Jedinice.Count > 0)
+                {
+                    <h3>Rezervisana Smestajna Jedinica</h3>
+                    <table border="1">
+                        <tr>
+                            <th>ID</th>
+                            <th>Dozvoljen Broj Gostiju</th>
+                            <th>Ljubimci</th>
+                            <th>Cena</th>
+                            <th>Zauzeta</th>
+                        </tr>
+                        @{ SmestajnaJedinica sj = SmestajneJedinice.FindByID(r.SmestajnaJedinica.ToString());}
+                            <tr>
+                                <td>@sj.Identifikator.ToString()</td>
+                                <td>@sj.DozvoljenBrojGostiju.ToString()</td>
+                                <td>
+                                    @if (sj.Ljubimci)
+                                    {
+                                        <span>Da</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Ne</span>
+                                    }
+                                </td>
+                                <td>@sj.Cena.ToString()</td>
+                                <td>
+                                    @if (sj.Zauzeta)
+                                    {
+                                        <span>Da</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Ne</span>
+                                    }
+                                </td>
+                            </tr>
+                    </table>
+                }
+            }
+        }
+    </div>
+    <br />
+</body>
+</html>

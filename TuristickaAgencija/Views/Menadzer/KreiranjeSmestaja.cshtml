@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Kreiranje Smestaja</h2>
+    <div>
+        <form action="~/Menadzer/KreirajSmestaj" method="post">
+            <table>
+                <tr>
+                    <td>Naziv Smestaja:</td>
+                    <td>
+                        <input type="text" name="Naziv" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tip Smestaja:</td>
+                    <td>
+                        <input list="tipovi" name="Tip" />
+                        <datalist id="tipovi">
+                            <option value="Hotel"></option>
+                            <option value="Motel"></option>
+                            <option value="Vila"></option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Broj Zvezdica:</td>
+                    <td>
+                        <input list="zvezdice" name="BrojZvezdica" />
+                        <datalist id="zvezdice">
+                            <option value="1"></option>
+                            <option value="2"></option>
+                            <option value="3"></option>
+                            <option value="4"></option>
+                            <option value="5"></option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bazen (da/ne):</td>
+                    <td><input type="text" name="Bazen" /></td>
+                </tr>
+                <tr>
+                    <td>Spa Centar (da/ne):</td>
+                    <td><input type="text" name="SpaCentar" /></td>
+                </tr>
+                <tr>
+                    <td>Prilagodjeno Za Invalide (da/ne):</td>
+                    <td><input type="text" name="PrilagodjenoZaInvalide" /></td>
+                </tr>
+                <tr>
+                    <td>Wifi (da/ne):</td>
+                    <td><input type="text" name="Wifi" /></td>
+                </tr>
+                <tr>
+                    <td>Naziv Aranzmana:</td>
+                    <td><input type="text" name="NazivAranzmana" /></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Kreiraj" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div>
+        <br />
+        @ViewBag.Message
+    </div>
+    <div>
+        <br />
+        <a href="~/Menadzer/Index">Index</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Moji Komentari</h2>
+    @{ Korisnik menadzer = (Korisnik)Session["user"]; }
+    <div>
+        <table border="1">
+            <tr>
+                <th>Naziv Aranzmana</th>
+                <th>Turista</th>
+                <th>Tekst</th>
+                <th>Ocena</th>
+                <th>Odobren</th>
+                <th>Odbijen</th>
+                <th></th> <!--Odobri-->
+                <th></th> <!--Odbij-->
+            </tr>
+            @foreach (Aranzman a in menadzer.Aranzmani)
+            {
+                foreach (Komentar k in Komentari.ListaKomentara)
+                {
+                    if (k.Aranzman == a.Naziv)
+                    {
+            <tr>
+                <td>@a.Naziv</td>
+                <td>@k.Turista</td>
+                <td>@k.Tekst</td>
+                <td>@k.Ocena.ToString()</td>
+                @if (k.Odobren)
+                {
+                    <td>Da</td>
+                    <td>Ne</td>
+                    <td></td>
+                    <td></td>
+                }
+                else
+                {
+                    <td>Ne</td>
+                    if (k.Odbijen)
+                    {
+                        <td>Da</td>
+                        <td></td>
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>Ne</td>
+                        <td>
+                            <form method="post" action="~/Menadzer/OdobriKomentar">
+                                <input type="hidden" name="Turista" value=@k.Turista />
+                                <input type="hidden" name="Aranzman" value=@k.Aranzman />
+                                <input type="hidden" name="Tekst" value="@k.Tekst" />
+                                <input type="hidden" name="Ocena" value=@k.Ocena.ToString() />
+                                <input type="hidden" name="Odobren" value=@k.Odobren />
+                                <input type="submit" value="Odobri" />
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="~/Menadzer/OdbijKomentar">
+                                <input type="hidden" name="Turista" value=@k.Turista />
+                                <input type="hidden" name="Aranzman" value=@k.Aranzman />
+                                <input type="hidden" name="Tekst" value="@k.Tekst" />
+                                <input type="hidden" name="Ocena" value=@k.Ocena.ToString() />
+                                <input type="hidden" name="Odobren" value=@k.Odobren />
+                                <input type="submit" value="Odbij" />
+                            </form>
+                        </td>
+                    }
+
+                }
+            </tr>
+                    }
+                }
+            }
+        </table>
+    </div>
+</body>
+</html>

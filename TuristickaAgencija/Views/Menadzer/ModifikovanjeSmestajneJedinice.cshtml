@@ -1,0 +1,55 @@
+﻿@using TuristickaAgencija.Models
+@model SmestajnaJedinica
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Modifikovanje Smestajne Jedinice</h2>
+    <br />
+    <form action="~/Menadzer/ModifikujDatuSmestajnuJedinicu" method="post">
+        <table>
+            <tr>
+                <td>Dozvoljen Broj Gostiju:</td>
+                <td>
+                    <input type="hidden" name="Identifikator" value=@Model.Identifikator />
+                    <input type="text" name="DozvoljenBrojGostiju" />
+                </td>
+            </tr>
+            <tr>
+                <td>Ljubimci (da/ne):</td>
+                <td>
+                    <input type="text" name="Ljubimci" />
+                </td>
+            </tr>
+            <tr>
+                <td>Cena:</td>
+                <td>
+                    <input type="text" name="Cena" />
+                </td>
+            </tr>
+            <tr>
+                <td>Naziv Smestaja:</td>
+                <td><input type="text" name="NazivSmestaja" /></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Modifikuj" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br />
+    @ViewBag.Message
+    <br />
+    <div>
+        <a href="~/Menadzer/Index">Index</a>
+    </div>
+</body>
+</html>

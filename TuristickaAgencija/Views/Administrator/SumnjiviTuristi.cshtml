@@ -1,0 +1,45 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Sumnjivi Turisti</h2>
+    <br />
+    <div>
+        <table>
+            @foreach (Korisnik k in Korisnici.ListaKorisnika)
+            {
+                if (k.Otkazao < 2)
+                { continue; }
+                <tr>
+                    <td> - @k.KorisnickoIme</td>
+                    @if (k.Blokiran)
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            <form method="post" action="~/Administrator/Blokiraj">
+                                <input type="hidden" name="KorisnickoIme" value="@k.KorisnickoIme"/>
+                                <input type="submit" value="Blokiraj"/>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+    <br />
+    <br />
+    <div>
+        <a href="~/Administrator/Index">Index</a>
+    </div>
+</body>
+</html>

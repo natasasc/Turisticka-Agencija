@@ -1,0 +1,227 @@
+﻿@using TuristickaAgencija.Models
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Moje Rezervacije</h2>
+    <br />
+    <div>
+        <h3>Sortiranje Rezervacija Po:</h3>
+        <form action="~/Turista/SortiranjeRezervacija" method="post">
+            <input list="sortvrsta" name="sortvrsta" />
+            <datalist id="sortvrsta">
+                <option value="dozvoljenom broju gostiju"></option>
+                <option value="ceni"></option>
+            </datalist>
+            <input list="sortnacin" name="sortnacin" />
+            <datalist id="sortnacin">
+                <option value="opadajuce"></option>
+                <option value="rastuce"></option>
+            </datalist>
+            <input type="submit" value="Sortiraj" />
+        </form>
+    </div>
+    <div>
+        @{
+            Korisnik k = (Korisnik)Session["user"];
+        <table border="1">
+            <tr>
+                <th>Naziv Aranzmana</th>
+                <th>Naziv Smestaja</th>
+                <th>Dozvoljen Broj Gostiju</th>
+                <th>Ljubimci</th>
+                <th>Cena</th>
+                <th>Otkazana</th>
+                <th></th>   <!--Pogledaj-->
+                <th></th>   <!--Otkazi-->
+                <th></th>   <!--Komentarisi-->
+            </tr>
+            
+            @foreach (Rezervacija r in Rezervacije.ListaRezervacija)
+            {
+                if (r.Turista == k.KorisnickoIme)
+                {
+                        <tr>
+                            <td>@r.Aranzman</td>
+                            <td>@Aranzmani.FindByNaziv(r.Aranzman).Smestaj.Naziv</td>
+                            @{ 
+                                SmestajnaJedinica sj = SmestajneJedinice.FindByID(r.SmestajnaJedinica.ToString());
+                            }
+                            <td>@sj.DozvoljenBrojGostiju.ToString()</td>
+                            @if (sj.Ljubimci)
+                            {
+                                <td>Da</td>
+                            }
+                            else
+                            {
+                                <td>Ne</td>
+                            }
+                            <td>@sj.Cena.ToString()</td>
+                            @if (r.Status == StatusRezervacije.Otkazana)
+                            {
+                                <td>Da</td>
+                            }
+                            else
+                            {
+                                <td>Ne</td>
+                            }
+                            <td>
+                                <form method="post" action="~/Home/OdredjeniAranzman">
+                                    <input type="hidden" name="naziv"
+                                           value=@SmestajneJedinice.FindSmestaj(sj.NazivSmestaja).NazivAranzmana />
+                                    <input type="submit" value="Pogledaj">
+                                </form>
+                            </td>
+                            @if (r.Status == StatusRezervacije.Otkazana)
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                            else if (Aranzmani.FindByNaziv((Smestaji.FindByNaziv(sj.NazivSmestaja)).NazivAranzmana)
+                            .DatumZavrsetkaPutovanja > DateTime.Now)
+                            {
+                                <td>
+                                    <form method="post" action="~/Turista/Otkazi">
+                                        <input type="hidden" name="Identifikator" value=@sj.Identifikator.ToString() />
+                                        <input type="submit" value="Otkazi">
+                                    </form>
+                                </td>
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td>
+                                    <form method="post" action="~/Turista/OstaviKomentar">
+                                        <input type="hidden" name="Identifikator" value=@sj.Identifikator.ToString() />
+                                        <input type="submit" value="Komentarisi">
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+
+                    }
+                }
+
+        </table>
+
+                <br /><br />
+                <h3>Pretraga Rezervacija:</h3>
+                <form action="~/Turista/PretragaRezervacija" method="post">
+                    Donja granica za dozvoljen broj gostiju:
+                    <input type="text" name="donjiBrojGostiju" />
+                    <br />
+                    Gornja granica za dozvoljen broj gostiju:
+                    <input type="text" name="gornjiBrojGostiju" />
+                    <br />
+                    Dozvoljen boravak kucnim ljubimcima (da/ne):
+                    <input type="text" name="ljubimci" />
+                    <br />
+                    Cena smestajne jedinice (min-max):
+                    <input type="text" name="cena" />
+                    <br />
+                    <input type="submit" value="Pretrazi" />
+                    <br />
+                </form>
+
+                if (ViewBag.TrazenaRezervacija == null)
+                {
+                    <div>
+                        <br />
+                        @ViewBag.Message
+                    </div>
+                }
+                else
+                {
+                    <br />
+                    <h3>Rezultati pretrage:</h3>
+                    <table border="1">
+                        <tr>
+                            <th>Naziv Aranzmana</th>
+                            <th>Naziv Smestaja</th>
+                            <th>Dozvoljen Broj Gostiju</th>
+                            <th>Ljubimci</th>
+                            <th>Cena</th>
+                            <th>Otkazana</th>
+                            <th></th>   <!--Pogledaj-->
+                            <th></th>   <!--Otkazi-->
+                            <th></th>   <!--Komentarisi-->
+                        </tr>
+
+                        @foreach (Rezervacija r in ViewBag.TrazenaRezervacija)
+                        {
+                            <tr>
+                            <td>@r.Aranzman</td>
+                            <td>@Aranzmani.FindByNaziv(r.Aranzman).Smestaj.Naziv</td>
+                            @{
+                                SmestajnaJedinica sj = SmestajneJedinice.FindByID(r.SmestajnaJedinica.ToString());
+                            }
+                            <td>@sj.DozvoljenBrojGostiju.ToString()</td>
+                            @if (sj.Ljubimci)
+                            {
+                                <td>Da</td>
+                            }
+                            else
+                            {
+                                <td>Ne</td>
+                            }
+                            <td>@sj.Cena.ToString()</td>
+                            @if (r.Status == StatusRezervacije.Otkazana)
+                            {
+                                <td>Da</td>
+                            }
+                            else
+                            {
+                                <td>Ne</td>
+                            }
+                            <td>
+                                <form method="post" action="~/Home/OdredjeniAranzman">
+                                    <input type="hidden" name="naziv"
+                                           value=@SmestajneJedinice.FindSmestaj(sj.NazivSmestaja).NazivAranzmana />
+                                    <input type="submit" value="Pogledaj">
+                                </form>
+                            </td>
+                            @if (r.Status == StatusRezervacije.Otkazana)
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                            else if (Aranzmani.FindByNaziv((Smestaji.FindByNaziv(sj.NazivSmestaja)).NazivAranzmana)
+                                .DatumZavrsetkaPutovanja > DateTime.Now)
+                            {
+                                <td>
+                                    <form method="post" action="~/Turista/Otkazi">
+                                        <input type="hidden" name="Identifikator" value=@sj.Identifikator.ToString() />
+                                        <input type="submit" value="Otkazi">
+                                    </form>
+                                </td>
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td>
+                                    <form method="post" action="~/Turista/OstaviKomentar">
+                                        <input type="hidden" name="Identifikator" value=@sj.Identifikator.ToString() />
+                                        <input type="submit" value="Komentarisi">
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+
+                         }
+
+                    </table>
+                }
+        }
+    </div>
+    <br />
+    <div>
+        <a href="~/Turista/Index">Index</a>
+    </div>
+</body>
+</html>

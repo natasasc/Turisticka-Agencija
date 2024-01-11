@@ -1,0 +1,35 @@
+﻿@using TuristickaAgencija.Models
+@model SmestajnaJedinica
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Komentar</h2>
+    <h4>Smestaj: @Smestaji.FindByNaziv(Model.NazivSmestaja).Tip @Model.NazivSmestaja </h4>
+    <div>
+        <form method="post" action="~/Turista/Komentarisi">
+            @{ Korisnik k = (Korisnik)Session["user"]; }
+            <input type="hidden" name="Turista" value=@k.KorisnickoIme />
+            <input type="hidden" name="Aranzman" value=@Smestaji.FindByNaziv(Model.NazivSmestaja).NazivAranzmana />
+            Tekst:
+            <input type="text" name="Tekst" />
+            <br />
+            Ocena (1-5):
+            <input type="text" name="Ocena" />
+            <br /><br />
+            <input type="hidden" name="Identifikator" value=@Model.Identifikator />
+            <input type="submit" value="Komentarisi">
+        </form>
+    </div>
+    <br />
+    <div>
+        @ViewBag.Message
+    </div>
+</body>
+</html>

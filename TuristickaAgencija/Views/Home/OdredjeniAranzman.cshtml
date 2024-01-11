@@ -1,0 +1,224 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Odredjeni Aranzman</h2>
+    <div>
+        <h3>Aranzman</h3>
+        <table>
+            <tr>
+                <td>Naziv:</td>
+                <td>@ViewBag.Aranzman.Naziv</td>
+            </tr>
+            <tr>
+                <td>Tip Aranzmana:</td>
+                <td>@ViewBag.Aranzman.Tip.ToString()</td>
+            </tr>
+            <tr>
+                <td>Tip Prevoza:</td>
+                <td>@ViewBag.Aranzman.Prevoz.ToString()</td>
+            </tr>
+            <tr>
+                <td>Polazak:</td>
+                <td>@ViewBag.Aranzman.DatumPocetkaPutovanja.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td>Povratak:</td>
+                <td>@ViewBag.Aranzman.DatumZavrsetkaPutovanja.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td>Maksimalan Broj Putnika:</td>
+                <td>@ViewBag.Aranzman.MaxBrojPutnika.ToString()</td>
+            </tr>
+            <tr>
+                <td>Opis Aranzmana:</td>
+                <td>@ViewBag.Aranzman.OpisAranzmana</td>
+            </tr>
+            <tr>
+                <td>Program Putovanja:</td>
+                <td>@ViewBag.Aranzman.ProgramPutovanja</td>
+            </tr>
+        </table>
+        <br />
+        <h3>Nalazenje</h3>
+        <table>
+            <tr>
+                <td>Adresa:</td>
+                <td>@ViewBag.Aranzman.MestoNalazenja.Adresa</td>
+            </tr>
+            <tr>
+                <td>Geografska Duzina:</td>
+                <td>@ViewBag.Aranzman.MestoNalazenja.GeografskaDuzina.ToString() N</td>
+            </tr>
+            <tr>
+                <td>Geografska Sirina:</td>
+                <td>@ViewBag.Aranzman.MestoNalazenja.GeografskaSirina.ToString() E</td>
+            </tr>
+            <tr>
+                <td>Vreme:</td>
+                <td>@ViewBag.Aranzman.VremeNalazenja</td>
+            </tr>
+        </table>
+        <br />
+        @if (ViewBag.Aranzman.Smestaj != null)
+        {
+            <h3>Smestaj</h3>
+            <table>
+                <tr>
+                    <td>Tip Smestaja:</td>
+                    <td>@ViewBag.Aranzman.Smestaj.Tip.ToString()</td>
+                </tr>
+                <tr>
+                    <td>Naziv Smestaja:</td>
+                    <td>@ViewBag.Aranzman.Smestaj.Naziv</td>
+                </tr>
+                @if (ViewBag.Aranzman.Smestaj.Tip == TipSmestaja.Hotel)
+                {
+                    <tr>
+                        <td>Broj Zvezdica:</td>
+                        <td>@ViewBag.Aranzman.Smestaj.BrojZvezdica.ToString()</td>
+                    </tr>
+                }
+                <tr>
+                    <td>Bazen:</td>
+                    <td>
+                        @if (ViewBag.Aranzman.Smestaj.Bazen)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Spa Centar:</td>
+                    <td>
+                        @if (ViewBag.Aranzman.Smestaj.SpaCentar)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Prilagodjeno Za Invalide:</td>
+                    <td>
+                        @if (ViewBag.Aranzman.Smestaj.PrilagodjenoZaInvalide)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Wifi:</td>
+                    <td>
+                        @if (ViewBag.Aranzman.Smestaj.Wifi)
+                        {
+                            <span>Da</span>
+                        }
+                        else
+                        {
+                            <span>Ne</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+            <br />
+
+            if (ViewBag.Aranzman.Smestaj.Jedinice != null)
+            {
+                if (ViewBag.Aranzman.Smestaj.Jedinice.Count > 0)
+                {
+                <h3>Smestajne Jedinice</h3>
+                <table border="1">
+                    <tr>
+                        <th>ID</th>
+                        <th>Dozvoljen Broj Gostiju</th>
+                        <th>Ljubimci</th>
+                        <th>Cena</th>
+                        <th>Zauzeta</th>
+                    </tr>
+                    @foreach (SmestajnaJedinica sj in ViewBag.Aranzman.Smestaj.Jedinice)
+                    {
+                        <tr>
+                            <td>@sj.Identifikator.ToString()</td>
+                            <td>@sj.DozvoljenBrojGostiju.ToString()</td>
+                            <td>
+                                @if (sj.Ljubimci)
+                                {
+                                    <span>Da</span>
+                                }
+                                else
+                                {
+                                    <span>Ne</span>
+                                }
+                            </td>
+                            <td>@sj.Cena.ToString()</td>
+                            <td>
+                                @if (sj.Zauzeta)
+                                {
+                                    <span>Da</span>
+                                }
+                                else
+                                {
+                                    <span>Ne</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+                }
+            }
+        }
+    </div>
+    <br />
+    <div>
+        <h3>Komentari</h3>
+        @{ 
+            List<Komentar> lista = Komentari.FindByAranzman(ViewBag.Aranzman.Naziv);
+
+            if (lista.Count > 0)
+            {
+        <table border="1">
+            <tr>
+                <th>Korisnik</th>
+                <th>Tekst</th>
+                <th>Ocena</th>
+            </tr>
+            @foreach (Komentar k in Komentari.ListaKomentara)
+            {
+                if (ViewBag.Aranzman.Naziv == k.Aranzman && k.Odobren)
+                {
+                    <tr>
+                        <td>@k.Turista</td>
+                        <td>@k.Tekst</td>
+                        <td>@k.Ocena.ToString()</td>
+                    </tr>
+                }
+            }
+        </table>
+            }
+            else
+            {
+                <span>Nema komentara za ovaj aranzman!</span>
+            }
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,258 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <div>
+        <h3>Sortiranje Smestaja Po:</h3>
+        <form action="~/Menadzer/SortiranjeSmestaja" method="post">
+            <input list="sortvrsta" name="sortvrsta" />
+            <datalist id="sortvrsta">
+                <option value="nazivu"></option>
+                <option value="ukupnom broju smestajnih jedinica"></option>
+                <option value="broju slobodnih smestajnih jedinica"></option>
+            </datalist>
+            <input list="sortnacin" name="sortnacin" />
+            <datalist id="sortnacin">
+                <option value="opadajuce"></option>
+                <option value="rastuce"></option>
+            </datalist>
+            <input type="submit" value="Sortiraj" />
+        </form>
+    </div>
+    <br />
+    <table border="1">
+        <tr>
+            <th>Tip Smestaja</th>
+            <th>Naziv</th>
+            <th>Ukupan Broj Smestajnih Jedinica</th>
+            <th>Broj Slobodnih Smestajnih Jedinica</th>
+            <th></th>   <!--Pogledaj-->
+            <th></th>   <!--Modifikuj-->
+            <th></th>   <!--Obrisi-->
+        </tr>
+        @{
+            List<Smestaj> lista = Smestaji.ListaSmestaja;
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                if (lista[i].Obrisan)
+                {
+                    continue;
+                }
+                <tr>
+                    <td>@lista[i].Tip.ToString()</td>
+                    <td>@lista[i].Naziv</td>
+                    <td>@lista[i].Jedinice.Count.ToString()</td>
+                    <td>@Smestaji.BrojSlobodnihJedinica(lista[i]).ToString()</td>
+                    <td>
+                        <form method="post" action="~/Home/OdredjeniAranzman">
+                            <input type="hidden" name="naziv" value=@lista[i].NazivAranzmana />
+                            <input type="submit" value="Pogledaj">
+                        </form>
+                    </td>
+                    @if (Aranzmani.FindByNaziv(lista[i].NazivAranzmana).Kreirao == ((Korisnik)Session["user"]).KorisnickoIme)
+                    {
+                        <td>
+                            <form method="post" action="~/Menadzer/ModifikujSmestaj">
+                                <input type="hidden" name="naziv" value=@lista[i].Naziv />
+                                <input type="submit" value="Modifikuj">
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @{
+                        bool postoji = false;
+                        foreach (Aranzman a in Aranzmani.ListaAranzmana)
+                        {
+                            if (a.Smestaj.Naziv == lista[i].Naziv && a.DatumPocetkaPutovanja > DateTime.Now)
+                            {
+                                postoji = true;
+                                break;
+                            }
+                        }
+
+                        if (postoji || Aranzmani.FindByNaziv(lista[i].NazivAranzmana).Kreirao
+                                != ((Korisnik)Session["user"]).KorisnickoIme)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form method="post" action="~/Menadzer/ObrisiSmestaj">
+                                    <input type="hidden" name="naziv" value=@lista[i].Naziv />
+                                    <input type="submit" value="Obrisi">
+                                </form>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
+    <br />
+
+    <h3>Pretraga Smestaja:</h3>
+    <form action="~/Menadzer/PretragaSmestaja" method="post">
+        Naziv:
+        <input type="text" name="naziv" />
+        <br />
+        Tip Smestaja:
+        <input list="tip" name="tip" />
+        <datalist id="tip">
+            <option value="Hotel"></option>
+            <option value="Motel"></option>
+            <option value="Vila"></option>
+        </datalist>
+        <br />
+        Bazen:
+        <input type="text" name="bazen" />
+        <br />
+        Spa Centar:
+        <input type="text" name="spaCentar" />
+        <br />
+        Prilagodjeno Za Osobe Sa Invaliditetom:
+        <input type="text" name="prilagodjenoZaInvalide" />
+        <br />
+        Wifi:
+        <input type="text" name="wifi" />
+        <br />
+        <input type="submit" value="Pretrazi" />
+        <br />
+    </form>
+    @if (ViewBag.TrazeniSmestaj == null)
+    {
+        <div>
+            <br />
+            @ViewBag.Message
+        </div>
+    }
+    else
+    {
+        <br />
+        <h3>Rezultati pretrage:</h3>
+        <table border="1">
+            <tr>
+                <th>Naziv</th>
+                <th>Tip</th>
+                <th>Broj Zvezdica</th>
+                <th>Bazen</th>
+                <th>Spa Centar</th>
+                <th>Prilagodjeno Za Invalide</th>
+                <th>Wifi</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var a in ViewBag.TrazeniSmestaj)
+            {
+            <tr>
+                <td>@a.Naziv</td>
+                <td>@a.Tip.ToString()</td>
+                @if (a.Tip == TipSmestaja.Hotel)
+                {
+                    <td>@a.BrojZvezdica.ToString()</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                @if (a.Bazen)
+                {
+                    <td>Da</td>
+                }
+                else
+                {
+                    <td>Ne</td>
+                }
+                @if (a.SpaCentar)
+                {
+                    <td>Da</td>
+                }
+                else
+                {
+                    <td>Ne</td>
+                }
+                @if (a.PrilagodjenoZaInvalide)
+                {
+                    <td>Da</td>
+                }
+                else
+                {
+                    <td>Ne</td>
+                }
+                @if (a.Wifi)
+                {
+                    <td>Da</td>
+                }
+                else
+                {
+                    <td>Ne</td>
+                }
+
+                <td>
+                    <form method="post" action="~/Home/OdredjeniAranzman">
+                        <input type="hidden" name="naziv" value=@a.NazivAranzmana />
+                        <input type="submit" value="Pogledaj">
+                    </form>
+                </td>
+                @if (Aranzmani.FindByNaziv(a.NazivAranzmana).Kreirao == ((Korisnik)Session["user"]).KorisnickoIme)
+                {
+                    <td>
+                        <form method="post" action="~/Menadzer/ModifikujSmestaj">
+                            <input type="hidden" name="naziv" value=@a.Naziv />
+                            <input type="submit" value="Modifikuj">
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                @{
+                    bool postoji = false;
+                    foreach (Aranzman ar in Aranzmani.ListaAranzmana)
+                    {
+                        if (ar.Smestaj.Naziv == a.Naziv && ar.DatumPocetkaPutovanja > DateTime.Now)
+                        {
+                            postoji = true;
+                            break;
+                        }
+                    }
+
+                    if (postoji || Aranzmani.FindByNaziv(a.NazivAranzmana).Kreirao
+                            != ((Korisnik)Session["user"]).KorisnickoIme)
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            <form method="post" action="~/Menadzer/ObrisiSmestaj">
+                                <input type="hidden" name="naziv" value=@a.Naziv />
+                                <input type="submit" value="Obrisi">
+                            </form>
+                        </td>
+                    }
+                }
+            </tr>
+            }
+        </table>
+    }
+
+    <br />
+    <div>
+        <a href="~/Menadzer/Index">Index</a>
+    </div>
+</body>
+</html>

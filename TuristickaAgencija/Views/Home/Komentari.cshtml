@@ -1,0 +1,48 @@
+﻿@using TuristickaAgencija.Models
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/stil.css" rel="stylesheet">
+    <title></title>
+</head>
+<body>
+    <h2>Komentari</h2>
+    <br />
+    <div>
+        @foreach (Aranzman a in Aranzmani.ListaAranzmana)
+        {
+            if (a.DatumZavrsetkaPutovanja > DateTime.Now || a.Obrisan)
+            {
+                continue;
+            }
+
+            <h3>@a.Naziv</h3>
+            <table border="1">
+                <tr>
+                    <th>Turista</th>
+                    <th>Tekst</th>
+                    <th>Ocena</th>
+                </tr>
+                @foreach (Komentar k in Komentari.ListaKomentara)
+                {
+                    if (a.Naziv == k.Aranzman && k.Odobren)
+                    {
+                        <tr>
+                            <td>@k.Turista</td>
+                            <td>@k.Tekst</td>
+                            <td>@k.Ocena.ToString()</td>
+                        </tr>
+                    }
+                }
+            </table>
+            <br />
+        }
+    </div>
+    <div>
+        <a href="~/Home/Index">Index</a>
+    </div>
+</body>
+</html>
